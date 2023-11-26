@@ -16,7 +16,10 @@ public class WebElements {
         passWordField.sendKeys("secret_sauce");
         WebElement loginButtonField=driver.findElement(By.id("login-button"));
         loginButtonField.click();
-       driver.close();
+        WebElement swagLogo= driver.findElement(By.className("app_logo"));
+        String swagLogoText=swagLogo.getText();
+        System.out.println(swagLogoText);
+      // driver.close();
 
     }
 }
