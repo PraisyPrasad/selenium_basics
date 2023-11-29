@@ -64,6 +64,52 @@ public class Commands extends Base {
         confirmPassword.sendKeys("Automation@2023");
         WebElement submitButton = driver.findElement(By.name("submit"));
         submitButton.click();
+    }
+    @Test
+    public void verifyLinkText(){
+        driver.get("https://demo.guru99.com/test/newtours/");
+        WebElement yourDestination =driver.findElement(By.linkText("your destination"));
+        yourDestination.click();
+    }
+    @Test
+    public void verifyPartialLinkText(){
+        driver.get("https://demo.guru99.com/test/newtours/");
+        WebElement destination = driver.findElement(By.partialLinkText("destination"));
+        destination.click();
 
+    }
+    @Test
+    public void validateDemoWebShopUserLoginUsingXpath(){
+        driver.get("https://demowebshop.tricentis.com/");
+        WebElement login=driver.findElement(By.xpath("/html/body/div[4]/div[1]/div[1]/div[2]/div[1]/ul/li[2]/a"));
+        login.click();
+        WebElement email= driver.findElement(By.xpath("//*[@id=\"Email\"]"));
+        email.sendKeys("praisyprasad123@gmail.com");
+        WebElement passWord=driver.findElement(By.xpath("//*[@id=\"Password\"]"));
+        passWord.sendKeys("Automation@2023");
+        WebElement loginButton = driver.findElement(By.xpath("/html/body/div[4]/div[1]/div[4]/div[2]/div/div[2]/div[1]/div[2]/div[2]/form/div[5]/input"));
+        loginButton.click();
+        WebElement actualLoginElement = driver.findElement(By.xpath("/html/body/div[4]/div[1]/div[1]/div[2]/div[1]/ul/li[1]/a"));
+        String actualId = actualLoginElement.getText();
+        String expectedLoginId = "praisyprasad123@gmail.com";
+        Assert.assertEquals(actualId,expectedLoginId,"User Login Failed");
+
+
+    }
+    @Test
+    public void validateDemoWebShopUserLoginUsingCssSelector(){
+        driver.get("https://demowebshop.tricentis.com/");
+        WebElement login= driver.findElement(By.cssSelector("body > div.master-wrapper-page > div.master-wrapper-content > div.header > div.header-links-wrapper > div.header-links > ul > li:nth-child(2) > a"));
+        login.click();
+        WebElement email=driver.findElement(By.cssSelector("#Email"));
+        email.sendKeys("praisyprasad123@gmail.com");
+        WebElement password=driver.findElement((By.cssSelector("#Password")));
+        password.sendKeys("Automation@2023");
+        WebElement loginButton = driver.findElement(By.cssSelector("body > div.master-wrapper-page > div.master-wrapper-content > div.master-wrapper-main > div.center-2 > div > div.page-body > div.customer-blocks > div.returning-wrapper > div.form-fields > form > div.buttons > input"));
+        loginButton.click();
+        WebElement actualLoginElement = driver.findElement(By.cssSelector("body > div.master-wrapper-page > div.master-wrapper-content > div.header > div.header-links-wrapper > div.header-links > ul > li:nth-child(1) > a"));
+        String actualId = actualLoginElement.getText();
+        String expectedLoginId = "praisyprasad123@gmail.com";
+        Assert.assertEquals(actualId,expectedLoginId,"User Login Failed");
     }
 }
