@@ -167,4 +167,17 @@ public class Commands extends Base {
         boolean isVoteButtonDisplayed = voteButton.isDisplayed();
         Assert.assertTrue(isVoteButtonDisplayed,"Vote Button is not displayed");
     }
+    @Test
+    public void verifyCommunityPoll(){
+        driver.get("https://demowebshop.tricentis.com/");
+        List<WebElement>communityPole=driver.findElements(By.xpath("//li[@class='answer']//label[starts-with(@for,'pollanswers')]"));
+        for (WebElement obj:communityPole)
+        {
+            String poll= obj.getText();
+            if(poll.equals("Poor")){
+                System.out.println(obj.getText());
+                obj.click();
+            }
+        }
+    }
 }
