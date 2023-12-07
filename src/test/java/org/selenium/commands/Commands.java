@@ -5,6 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 public class Commands extends Base {
     @Test
     public void verifySwagLabsUserLogin() {
@@ -111,5 +113,58 @@ public class Commands extends Base {
         String actualId = actualLoginElement.getText();
         String expectedLoginId = "praisyprasad123@gmail.com";
         Assert.assertEquals(actualId,expectedLoginId,"User Login Failed");
+    }
+    @Test
+    public void validateTotalNumOfTagInApplication(){
+        driver.get("https://demowebshop.tricentis.com/");
+        List<WebElement> inputWebElement=driver.findElements(By.tagName("Input"));
+        int size = inputWebElement.size();
+        System.out.println("total no of input tag in UI is " +size);
+
+    }
+    @Test
+    public void verifyNavigationCommands(){
+        driver.get("https://demowebshop.tricentis.com/");
+        WebElement register=driver.findElement(By.xpath("//a[@class='ico-register']"));
+        register.click();
+        driver.navigate().back();
+        driver.navigate().forward();
+        WebElement firstname=driver.findElement(By.xpath("//input[@id='FirstName']"));
+        firstname.sendKeys("Praisy");
+        WebElement lastname=driver.findElement(By.xpath("//input[@id='LastName']"));
+        lastname.sendKeys("Prasad");
+        WebElement email= driver.findElement(By.xpath("//input[@id='Email']"));
+        email.sendKeys("praisyprasad123@gmail.com");
+        driver.navigate().refresh();
+        driver.navigate().to("https://www.google.co.in/");
+    }
+    @Test
+    public void verifyIsSelected(){
+        boolean isMaleSelected;
+        driver.get("https://demowebshop.tricentis.com/register");
+        WebElement maleRadioButton=driver.findElement(By.xpath("//input[@id='gender-male']"));
+        isMaleSelected=maleRadioButton.isSelected();//expected result is false so assert
+        Assert.assertFalse(isMaleSelected,"Male Radio Button is selected");//actual result is isMaleSelected
+        System.out.println("Gender Male Before Selection "+isMaleSelected);
+        maleRadioButton.click();
+        isMaleSelected = maleRadioButton.isSelected();//expected result is true
+        Assert.assertTrue(isMaleSelected,"Male Radio Button is not selected");
+        System.out.println("Gender Male After Selection "+isMaleSelected);
+
+    }
+    @Test
+    public void verifyIsEnabled(){
+
+        driver.get("https://demowebshop.tricentis.com/");
+        WebElement subscribeButton=driver.findElement(By.xpath("//input[@value='Subscribe']"));
+        boolean isSubscribeButtonEnabled = subscribeButton.isEnabled();
+        Assert.assertTrue(isSubscribeButtonEnabled,"Subscribe button is not enabled");
+    }
+    @Test
+    public void verifyIsDisplayed(){
+        driver.get("https://demowebshop.tricentis.com/");
+        WebElement voteButton=driver.findElement(By.xpath("//input[@id='vote-poll-1']"));
+        boolean isVoteButtonDisplayed = voteButton.isDisplayed();
+        Assert.assertTrue(isVoteButtonDisplayed,"Vote Button is not displayed");
     }
 }
