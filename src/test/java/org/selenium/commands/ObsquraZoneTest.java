@@ -149,12 +149,20 @@ public class ObsquraZoneTest extends Base {
         assertEquals(actual,expected,"Invalid selection");
 
     }
-   /* @Test
+    @Test
     public void verifyDropDownWithoutSelect(){
         driver.get("https://selenium.obsqurazone.com/jquery-select.php");
-        driver.findElement(By.xpath(""));
-
-    }*/
+        WebElement stateDropDown=driver.findElement(By.xpath("//span[@class='select2-selection select2-selection--single']//span[@class='select2-selection__arrow']"));
+        stateDropDown.click();
+        List<WebElement>DropDownWithoutSelect=driver.findElements(By.xpath("//li[contains(@class,'select2-results_option select2-results_option--selectable')]"));
+        for (WebElement dropDownValueElement :DropDownWithoutSelect){
+            String selectedstate = dropDownValueElement.getText();
+            if (selectedstate.equals("California")){
+                dropDownValueElement.click();
+                break;
+            }
+        }
+    }
     @Test
     public void verifyCustomerDelete(){
         driver.get("https://demo.guru99.com/test/delete_customer.php");
