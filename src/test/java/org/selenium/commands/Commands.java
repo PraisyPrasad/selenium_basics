@@ -1,7 +1,9 @@
 package org.selenium.commands;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -168,16 +170,108 @@ public class Commands extends Base {
         Assert.assertTrue(isVoteButtonDisplayed,"Vote Button is not displayed");
     }
     @Test
-    public void verifyCommunityPoll(){
+    public void verifyCommunityPoll() {
         driver.get("https://demowebshop.tricentis.com/");
-        List<WebElement>communityPole=driver.findElements(By.xpath("//li[@class='answer']//label[starts-with(@for,'pollanswers')]"));
-        for (WebElement obj:communityPole)
-        {
-            String poll= obj.getText();
-            if(poll.equals("Poor")){
-                System.out.println(obj.getText());
+        List<WebElement> communityPole = driver.findElements(By.xpath("//li[@class='answer']//label[starts-with(@for,'pollanswers')]"));
+        for (WebElement obj : communityPole) {
+            String poll = obj.getText();
+            if (poll.equals("Poor")) {
                 obj.click();
             }
         }
     }
+    @Test
+    public void verifyValuesSelectFromDropDown(){
+        driver.get("https://demo.guru99.com/test/newtours/register.php");
+        WebElement countryDropDown=driver.findElement(By.xpath("//select[@name='country']"));
+        Select select= new Select(countryDropDown);
+        //select.selectByVisibleText("INDIA");
+        //select.selectByIndex(23);
+        select.selectByValue("ANDORRA");
+        WebElement firstSelectedOption=select.getFirstSelectedOption();
+        System.out.println(firstSelectedOption.getText());
+    }
+    @Test
+    public void verifyTotalNumberOfDropDownValues(){
+        driver.get("https://demo.guru99.com/test/newtours/register.php");
+        WebElement countryDropDown=driver.findElement(By.xpath("//select[@name='country']"));
+        Select select=new Select(countryDropDown);
+        List<WebElement>dropDownElements=select.getOptions();
+        System.out.println(dropDownElements.size());
+    }
+    @Test
+    public void verifyMultiSelectDropDown(){
+        driver.get("https://www.tutorialspoint.com/selenium/selenium_automation_practice.htm");
+        WebElement multiSelect=driver.findElement(By.xpath("//select[@name='selenium_commands']"));
+        Select select =new Select(multiSelect);
+        boolean selectedValue=select.isMultiple();
+        System.out.println(selectedValue);
+        select.selectByVisibleText("Browser Commands");
+        select.selectByVisibleText("Navigation Commands");
+        List<WebElement>selectedValues=select.getAllSelectedOptions();
+        for (WebElement e:selectedValues) {
+            System.out.println(e.getText());
+            
+        }
+        select.deselectByVisibleText("Navigation Commands");
+    }
+    @Test
+    public void verifyFileUpload(){
+        driver.get("https://demo.guru99.com/test/upload/");
+        WebElement chooseFileField=driver.findElement(By.xpath("//input[@type='file']"));
+        chooseFileField.sendKeys("C:\\Users\\Hp\\IdeaProjects\\seleniumbasics\\src\\main\\resources\\Selenium.docx");
+        WebElement acceptField=driver.findElement(By.xpath("//input[@type='checkbox']"));
+        acceptField.click();
+        WebElement submitFile=driver.findElement(By.xpath("//button[@type='button']"));
+        submitFile.click();
+
+    }
+    @Test
+    public void verifyTextInSubscribeButton(){
+        driver.get("https://demowebshop.tricentis.com/");
+        WebElement subscribeButton=driver.findElement(By.id("newsletter-subscribe-button"));
+        String subscribeButtonText=subscribeButton.getAttribute("value");
+        String expectedResult="Subscribe";
+        Assert.assertEquals(subscribeButtonText,expectedResult,"Invalid Text Found in Subscribe Button");
+    }
+    @Test
+    public void verifySimpleAlert(){
+        driver.get("https://demoqa.com/alerts");
+        WebElement clickButton=driver.findElement(By.id("alertButton"));
+        clickButton.click();
+        Alert alert=driver.switchTo().alert();
+        String alertText = alert.getText();
+        System.out.println(alertText);
+        alert.accept();
+
+    }
+    @Test
+    public void verifyConfirmationAlert(){
+        driver.get("https://demoqa.com/alerts");
+        WebElement clickButton=driver.findElement(By.id("confirmButton"));
+        clickButton.click();
+        Alert alert=driver.switchTo().alert();
+        alert.dismiss();
+        WebElement message=driver.findElement(By.id("confirmResult"));
+        //message.getText();
+        String actualResult=message.getText();
+        String expectedResult="You selected Cancel";
+        Assert.assertEquals(actualResult,expectedResult,"Invalid Text Found");
+    }
+    @Test
+    public void verifyPromtAlert(){
+        driver.get("https://demoqa.com/alerts");
+        WebElement clickButton=driver.findElement(By.id("promtButton"));
+        clickButton.click();
+        Alert alert=driver.switchTo().alert();
+        alert.sendKeys("Praisy");
+        alert.accept();
+        WebElement promtResult=driver.findElement(By.id("promptResult"));
+        String actualResult=promtResult.getText();
+        String expectedResult="You entered Praisy";
+        Assert.assertEquals(actualResult,expectedResult,"Invalid Text Found");
+
+
+    }
+
 }

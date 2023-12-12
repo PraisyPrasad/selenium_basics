@@ -1,9 +1,15 @@
 package org.selenium.commands;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import java.util.ArrayList;
+import java.util.List;
+import org.openqa.selenium.support.ui.Select;
+
+import static org.testng.Assert.assertEquals;
 
 public class ObsquraZoneTest extends Base {
     @Test
@@ -101,6 +107,72 @@ public class ObsquraZoneTest extends Base {
         String expectedResult="Form has been submitted successfully!";
         Assert.assertEquals(actualResult,expectedResult,"Form submitted unsuccessfully");
     }
+    @Test
+    public void verifyColorSelectFromDropDown() {
+        driver.get("https://selenium.obsqurazone.com/select-input.php");
+        WebElement colourDropDown= driver.findElement(By.xpath("//select[@class='form-control']"));
+        Select select=new Select(colourDropDown);
+        select.selectByIndex(3);
+        WebElement colorSelected= select.getFirstSelectedOption();
+        WebElement messageField=driver.findElement(By.xpath("//div[@id='message-one']"));
+        String actualResult=messageField.getText();
+        String expectedResult="Selected Color : Green";
+        assertEquals(actualResult,expectedResult,"No color selected");
+    }
+    @Test
+    public void verifyTotalNumberOfValuesInDropDown() {
+        driver.get("https://selenium.obsqurazone.com/select-input.php");
+        WebElement colourDropDown= driver.findElement(By.xpath("//select[@class='form-control']"));
+        Select select=new Select(colourDropDown);
+        List<WebElement> dropDownSize=select.getOptions();
+        int actualResult= dropDownSize.size();
+        int expectedResult=4;
+        assertEquals(actualResult,expectedResult,"Invalid size");
+    }
+    @Test
+    public void verifyValuesInColorSelectDropDown() {
+        driver.get("https://selenium.obsqurazone.com/select-input.php");
+        WebElement colourDropDown= driver.findElement(By.xpath("//select[@class='form-control']"));
+        Select select=new Select(colourDropDown);
+        List<WebElement> element=select.getOptions();
+        List<String> actual=new ArrayList<>();
+        for(WebElement e:element)
+        {
+            String colors=e.getText();
+            actual.add(colors);
+        }
+        List<String> expected=new ArrayList<>();
+        expected.add("-- Select --");
+        expected.add("Red");
+        expected.add("Yellow");
+        expected.add("Green");
+        assertEquals(actual,expected,"Invalid selection");
+
+    }
+   /* @Test
+    public void verifyDropDownWithoutSelect(){
+        driver.get("https://selenium.obsqurazone.com/jquery-select.php");
+        driver.findElement(By.xpath(""));
+
+    }*/
+    @Test
+    public void verifyCustomerDelete(){
+        driver.get("https://demo.guru99.com/test/delete_customer.php");
+        WebElement idField=driver.findElement(By.xpath("//input[@name='cusid']"));
+        idField.sendKeys("9847");
+        WebElement submitButton=driver.findElement(By.xpath("//input[@name='submit']"));
+        submitButton.click();
+        Alert alert=driver.switchTo().alert();
+        String firstAlertMessage= alert.getText();
+        System.out.println(firstAlertMessage);
+        alert.accept();
+        String secondAlertMessage=alert.getText();
+        System.out.println(secondAlertMessage);
+        alert.accept();
+
+    }
+
+
 }
 
 
