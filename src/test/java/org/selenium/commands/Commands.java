@@ -1,19 +1,20 @@
 package org.selenium.commands;
 
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import javax.swing.*;
+import java.time.Duration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-public class Commands extends Base {
+public class Commands extends BrowserLaunch {
     @Test
     public void verifySwagLabsUserLogin() {
         driver.get("https://www.saucedemo.com/");
@@ -377,6 +378,87 @@ public class Commands extends Base {
         action.moveToElement(selectItemButton).build().perform();
         WebElement subListButton = driver.findElement(By.xpath("//a[text()='SUB SUB LIST »']"));
         action.moveToElement(subListButton).build().perform();
+    }
+    @Test
+    public void verifyJavaScriptClickAndSendKeys(){
+        driver.get("https://demowebshop.tricentis.com/");
+        JavascriptExecutor js = (JavascriptExecutor) driver;//to convert
+        js.executeScript("document.getElementById('newsletter-email').value='test@test.com'");
+        js.executeScript("document.getElementById('newsletter-subscribe-button').click()");
+
+    }
+    @Test
+    public void verifyVerticalScroll(){
+        driver.get("https://demowebshop.tricentis.com/");
+        JavascriptExecutor js=(JavascriptExecutor) driver;
+        js.executeScript("window.scrollTo(0,document.body.scrollHeight)");
+    }
+    @Test
+    public void verifyScreenshortAfterTestFail(){
+        driver.get("https://www.saucedemo.com/");
+        WebElement userNameField = driver.findElement(By.id("user-name"));
+        userNameField.sendKeys("standard_user");
+        WebElement passWordField = driver.findElement(By.id("password"));
+        passWordField.sendKeys("secret_sauce");
+        WebElement loginButtonField = driver.findElement(By.id("login-button"));
+        loginButtonField.click();
+        WebElement swagLogo = driver.findElement(By.className("app_logo"));
+        String actualswagLogoText = swagLogo.getText();
+        String expectedSwagLogoText = "Swag";
+        Assert.assertEquals(actualswagLogoText, expectedSwagLogoText, "Invalid Logo found in login page");
+    }
+    @Test
+    public void verifyWait() throws InterruptedException {
+        driver.get("https://demoqa.com/alerts");
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));//execution time cannot be changed
+        WebDriverWait wait=new WebDriverWait(driver,Duration.ofSeconds(20));//explicit wait--polling time cannot be controlled, waite is given for specific element
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("timerAlertButton")));
+        WebElement clickButton=driver.findElement(By.id("timerAlertButton"));
+        clickButton.click();
+        Thread.sleep(6000);//used in java not in selenium because time of execution is more
+        wait.until(ExpectedConditions.alertIsPresent());
+        Alert alert=driver.switchTo().alert();
+        alert.accept();
+    }
+    @Test
+    public void verifyFluentWait() {
+        driver.get("https://demoqa.com/alerts");
+        FluentWait wait=new FluentWait(driver);
+        wait.withTimeout(Duration.ofSeconds(20));
+        wait.pollingEvery(Duration.ofSeconds(2));
+        wait.ignoring(NoSuchElementException.class);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("timerAlertButton")));
+        WebElement clickButton=driver.findElement(By.id("timerAlertButton"));
+        clickButton.click();
+        wait.until(ExpectedConditions.alertIsPresent());
+        Alert alert=driver.switchTo().alert();
+        alert.accept();
+    }
+
+    @Test
+    public void verifyDiffBetweenFindElementFindElements(){
+        driver.get("https://demowebshop.tricentis.com/");
+        WebElement subscribeButton=driver.findElement(By.id("newsletter-subscribe-button"));
+        System.out.println("Webelement on match" +subscribeButton);
+        List<WebElement> communityPole=driver.findElements(By.xpath("//li[@class='answer']//label"));
+        int size=communityPole.size();
+        System.out.println("List of size on match" +size);
+        //On ZeroMatch
+        List<WebElement> communityPollonZeroMatch=driver.findElements(By.xpath("//li[@class='answer123']//label"));
+        int sizeonzeromatch=communityPollonZeroMatch.size();
+        System.out.println("Size of list on zero match "+sizeonzeromatch);
+        //WebElement subscribeButtonZeroMatch=driver.findElement(By.id("newsletter-subscribe-button123"));
+        //On Oneplus Match
+        WebElement communityPollonOnePlusMatch=driver.findElement(By.xpath("//li[@class='answer']//label"));
+        communityPollonOnePlusMatch.click();
+    }
+    @Test
+    public void verifyDiffBetweenCloseAndQuit(){//need to close whole browser
+        driver.get("https://demo.guru99.com/popup.php");
+        WebElement clickButton = driver.findElement(By.linkText("Click Here"));
+        clickButton.click();//go to base and comment browser.close and give browser.quite
+
     }
 
 }
