@@ -1,8 +1,8 @@
-package testingcommands;
+package org.selenium.testingcommands;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import automationcore.Base;
+import org.selenium.automationcore.Base;
 import org.selenium.constants.Constants;
 import org.selenium.constants.Messages;
 import org.testng.Assert;

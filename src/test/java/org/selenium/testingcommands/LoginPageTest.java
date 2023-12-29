@@ -1,11 +1,14 @@
-package testingcommands;
+package org.selenium.testingcommands;
 
-import automationcore.Base;
+import org.selenium.automationcore.Base;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.selenium.constants.Constants;
 import org.selenium.constants.Messages;
+
+import org.selenium.dataprovider.DataProviders;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import utilities.ExcelUtility;
 import java.util.ArrayList;
@@ -36,15 +39,15 @@ public class LoginPageTest extends Base {
         Assert.assertEquals(actualResult, expectedResult, "Login failed");
         Assert.assertEquals(actualResult, expectedResult, Messages.LOGIN_FAILED);
     }
-    @Test
-    public void verifyUserLoginWithInvalidValidation() {
+    @Test(priority = 1,dataProvider = "InvalidUserCredentials", dataProviderClass = DataProviders.class)
+    public void verifyUserLoginWithInvalidValidation(String userName,String password) {
         WebElement loginField = driver.findElement(By.xpath("//a[@class='ico-login']"));
         loginField.click();
         WebElement emailField = driver.findElement(By.id("Email"));
         ArrayList<String> data = ExcelUtility.readData(Constants.TEST_DATA_EXCEL_PATH, Constants.LOGIN_PAGE);
-        emailField.sendKeys(data.get(4));
+        emailField.sendKeys(userName);
         WebElement passwordField = driver.findElement(By.id("Password"));
-        passwordField.sendKeys(data.get(5));
+        passwordField.sendKeys(password);
         WebElement loginButton = driver.findElement(By.xpath("//input[@class='button-1 login-button']"));
         loginButton.click();
         WebElement actualMessage = driver.findElement(By.xpath("//span[text()='Login was unsuccessful. Please correct the errors and try again.']"));
