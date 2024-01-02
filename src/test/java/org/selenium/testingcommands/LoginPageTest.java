@@ -53,6 +53,6 @@ public class LoginPageTest extends Base {
         WebElement actualMessage = driver.findElement(By.xpath("//span[text()='Login was unsuccessful. Please correct the errors and try again.']"));
         String actualMessageText = actualMessage.getText();
         String expectedMessageText = data.get(6);
-        Assert.assertEquals(actualMessageText, expectedMessageText, Messages.LOGIN_FAILED);
+        Assert.assertEquals(actualMessageText, expectedMessageText, Messages.LOGIN_FAILED_WARNINGMESSAGE_NOTFOUND);
     }
 }

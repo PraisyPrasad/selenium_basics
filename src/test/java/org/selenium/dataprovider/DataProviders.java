@@ -5,7 +5,7 @@ import org.testng.annotations.DataProvider;
 public class DataProviders {
     @DataProvider(name="InvalidUserCredentials")
     public Object[][] userCredentialsData(){
-        Object[][] data=new Object[3][3];
+        Object[][] data=new Object[3][2];
         data[0][0]="praisyprasad12345@gmail.com";
         data[0][1]="Automation@202345";
 
