@@ -4,10 +4,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.selenium.constants.Constants;
-
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class ExcelUtility {
@@ -19,13 +16,9 @@ public class ExcelUtility {
         try {
             String path = Constants.HOME_DIRECTORY + file_path;
             file = new FileInputStream(path);
-        } catch (FileNotFoundException ex) {
-            throw new RuntimeException(ex);
-        }
-        try {
             wb = new XSSFWorkbook(file);
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
+        } catch (Exception e) {
+            throw new RuntimeException("Test data excel sheet not found");
         }
         sh = wb.getSheet(sheet);
         ArrayList<String> excelRows = new ArrayList<>();
