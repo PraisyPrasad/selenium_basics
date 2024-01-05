@@ -1,24 +1,33 @@
 package org.selenium.testingcommands;
 
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.selenium.automationcore.Base;
 import org.selenium.constants.Constants;
 import org.selenium.constants.Messages;
+import org.selenium.listeners.ExtentListener;
+import org.selenium.retryanalyzer.RetryAnalyzer;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import utilities.ExcelUtility;
 import java.util.ArrayList;
 import java.util.List;
 public class HomePageTest extends Base {
-    @Test
+    ThreadLocal<ExtentTest> extentTest = ExtentListener.getTestInstance();
+    @Test(priority = 1,enabled = true,groups ={"Smoke","Regression"},retryAnalyzer = RetryAnalyzer.class)
     public void verifyHomePageTitle() {
+        extentTest.get().assignCategory("Smoke");
+        extentTest.get().log(Status.PASS,"URL Loaded Succefully");
+        extentTest.get().log(Status.PASS,"Home Page Title Received Successfully");
         String actualResult = driver.getTitle();
         ArrayList<String> data = ExcelUtility.readData(Constants.TEST_DATA_EXCEL_PATH, Constants.HOME_PAGE);
-        String expectedResult = data.get(1);
+        extentTest.get().log(Status.PASS,"Expected Title Received From Excel");
+        String expectedResult = data.get(1);//+"123";
         Assert.assertEquals(actualResult, expectedResult, Messages.TITLE_MISMATCH);
     }
-    @Test
+    @Test(priority = 2,groups ="Sanity")
     public void verifyCommunityPollSelection() {
         List<WebElement> pollTexts = driver.findElements(By.xpath("//li[@class='answer']//label[starts-with(@for,'pollanswers')]"));
         for (WebElement values : pollTexts) {

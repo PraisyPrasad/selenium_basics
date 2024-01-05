@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Functional Suite">
+    <groups>
+        <run>
+            <include name="Smoke"/>
+        </run>
+    </groups>
+    <test name="Functional Test">
+        <parameter name="browser" value="Chrome"/>
+        <parameter name="baseurl" value="https://demowebshop.tricentis.com/"/>
+        <classes>
+            <class name="org.selenium.testingcommands.HomePageTest"/>
+            <class name="org.selenium.testingcommands.RegisterPageTest"/>
+            <class name="org.selenium.testingcommands.LoginPageTest"/>
+        </classes>
+    </test>
+</suite>

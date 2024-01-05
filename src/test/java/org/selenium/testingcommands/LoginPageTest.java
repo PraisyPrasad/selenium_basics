@@ -1,27 +1,30 @@
 package org.selenium.testingcommands;
 
+import com.aventstack.extentreports.ExtentTest;
 import org.selenium.automationcore.Base;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.selenium.constants.Constants;
 import org.selenium.constants.Messages;
 import org.selenium.dataprovider.DataProviders;
+import org.selenium.listeners.ExtentListener;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import utilities.ExcelUtility;
 import java.util.ArrayList;
 public class LoginPageTest extends Base {
-    @Test
+    ThreadLocal<ExtentTest> extentTest = ExtentListener.getTestInstance();
+    @Test(priority = 5,groups = "Smoke")
     public void verifyLoginPageTitle() {
 
         WebElement loginField = driver.findElement(By.xpath("//a[@class='ico-login']"));
         loginField.click();
         String actualpageTitle = driver.getTitle();
         ArrayList<String> data = ExcelUtility.readData(Constants.TEST_DATA_EXCEL_PATH, Constants.LOGIN_PAGE);
-        String expectedResult = data.get(1);
+        String expectedResult = data.get(1)+"123";
         Assert.assertEquals(actualpageTitle, expectedResult, Messages.TITLE_MISMATCH);
     }
-    @Test
+    @Test(priority = 6,groups = {"Smoke","Regression"})
     public void verifyUserLogin() {
         WebElement loginField = driver.findElement(By.xpath("//a[@class='ico-login']"));
         loginField.click();
@@ -37,7 +40,7 @@ public class LoginPageTest extends Base {
         Assert.assertEquals(actualResult, expectedResult, "Login failed");
         Assert.assertEquals(actualResult, expectedResult, Messages.LOGIN_FAILED);
     }
-    @Test(priority = 1,dataProvider = "InvalidUserCredentials", dataProviderClass = DataProviders.class)
+    @Test(priority = 7,dataProvider = "InvalidUserCredentials", dataProviderClass = DataProviders.class,groups = "Sanity")
     public void verifyUserLoginWithInvalidValidation(String userName,String password) {
         WebElement loginField = driver.findElement(By.xpath("//a[@class='ico-login']"));
         loginField.click();
