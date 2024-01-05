@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Functional Suite">
+    <test name="Regression Test">
+        <parameter name="browser" value="Chrome"/>
+        <parameter name="baseurl" value="https://demowebshop.tricentis.com/"/>
+        <classes>
+            <class name="org.selenium.testingcommands.HomePageTest">
+                <methods>
+                    <include name="verifyHomePageTitle"/>
+                    <include name="verifyCommunityPollSelection"/>
+                </methods>
+            </class>
+            <class name="org.selenium.testingcommands.RegisterPageTest">
+                <methods>
+                    <exclude name="verifyRegisterPageTitle"/>
+                    <exclude name="verifyUserRegistration"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Smoke Test">
+        <parameter name="browser" value="Chrome"/>
+        <parameter name="baseurl" value="https://demowebshop.tricentis.com/"/>
+        <classes>
+            <class name="org.selenium.testingcommands.LoginPageTest">
+                <methods>
+                    <exclude name="verifyLoginPageTitle"/>
+                    <exclude name="verifyUserLogin"/>
+                    <exclude name="verifyUserLoginWithInvalidValidation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
