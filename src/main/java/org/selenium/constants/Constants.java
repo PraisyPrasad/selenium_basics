@@ -6,5 +6,6 @@ public class Constants {
     public static final String REGISTER_PAGE = "RegisterPage";
     public static final String LOGIN_PAGE = "LoginPage";
     public static final String POOR = "Poor";
+    public static final String FEMALE = "Female";
     public static final String HOME_DIRECTORY = System.getProperty("user.dir");
 }
