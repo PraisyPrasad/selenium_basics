@@ -6,7 +6,7 @@ import org.selenium.page.RegisterPage;
 import utilities.RandomDataUtility;
 
 public class RegisterPageTest extends Base {
-    public void verifyRegistrationWithValidCredentials(){
+    public void verifyRegistrationWithInvalidCredentials(){
         String firstName = RandomDataUtility.getFirstName();
         String lastName = RandomDataUtility.getLastName();
         String emailID = firstName + "." + lastName + "123@yahoo.com";
