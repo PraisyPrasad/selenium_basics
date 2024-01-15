@@ -10,6 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -460,5 +461,17 @@ public class Commands extends BrowserLaunch {
         clickButton.click();//go to base and comment browser.close and give browser.quite
 
     }
+    @Test
+    public void verifyTableData(){
+        driver.get("https://www.w3schools.com/html/html_tables.asp");
+        List<WebElement> tableData=driver.findElements(By.xpath("//table[@id='customers']//tbody//tr[2]//td"));
+        List<String> actualTableData=new ArrayList<>();
+        for(WebElement data:tableData) {
+            String value=data.getText();
+            actualTableData.add(value);
+        }
+        System.out.println(actualTableData);
+    }
+
 
 }
